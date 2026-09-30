@@ -66,10 +66,12 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+DROP TRIGGER IF EXISTS wallets_updated_at ON wallets;
 CREATE TRIGGER wallets_updated_at
     BEFORE UPDATE ON wallets
     FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
+DROP TRIGGER IF EXISTS transactions_updated_at ON transactions;
 CREATE TRIGGER transactions_updated_at
     BEFORE UPDATE ON transactions
     FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
@@ -83,12 +85,27 @@ CREATE INDEX IF NOT EXISTS idx_transactions_type     ON transactions (type);
 CREATE INDEX IF NOT EXISTS idx_transactions_type_date ON transactions (type, transaction_date DESC);
 
 -- ============================================================
--- ROW LEVEL SECURITY (RLS) — Aktifkan jika pakai Auth Supabase
--- Untuk demo ini di-disable karena pakai service_role key
+-- ROW LEVEL SECURITY (RLS) & PERMISSIONS
+-- Buka akses penuh untuk anon key (baik RLS mati maupun menyala)
 -- ============================================================
--- ALTER TABLE wallets ENABLE ROW LEVEL SECURITY;
--- ALTER TABLE categories ENABLE ROW LEVEL SECURITY;
--- ALTER TABLE transactions ENABLE ROW LEVEL SECURITY;
+ALTER TABLE wallets DISABLE ROW LEVEL SECURITY;
+ALTER TABLE categories DISABLE ROW LEVEL SECURITY;
+ALTER TABLE transactions DISABLE ROW LEVEL SECURITY;
+
+DROP POLICY IF EXISTS "allow_all_wallets" ON wallets;
+DROP POLICY IF EXISTS "allow_all_categories" ON categories;
+DROP POLICY IF EXISTS "allow_all_transactions" ON transactions;
+
+CREATE POLICY "allow_all_wallets" ON wallets FOR ALL TO public USING (true) WITH CHECK (true);
+CREATE POLICY "allow_all_categories" ON categories FOR ALL TO public USING (true) WITH CHECK (true);
+CREATE POLICY "allow_all_transactions" ON transactions FOR ALL TO public USING (true) WITH CHECK (true);
+
+GRANT USAGE ON SCHEMA public TO anon, authenticated, service_role;
+GRANT ALL ON ALL TABLES IN SCHEMA public TO anon, authenticated, service_role;
+GRANT ALL ON ALL SEQUENCES IN SCHEMA public TO anon, authenticated, service_role;
+
+-- Bersihkan data awal jika dijalankan ulang agar tidak duplikat
+TRUNCATE TABLE transactions, wallets, categories RESTART IDENTITY CASCADE;
 
 -- ============================================================
 -- SEED DATA: Default Wallets
