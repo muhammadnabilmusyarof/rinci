@@ -80,7 +80,7 @@ CREATE TRIGGER transactions_updated_at
 CREATE INDEX IF NOT EXISTS idx_transactions_date     ON transactions (transaction_date DESC);
 CREATE INDEX IF NOT EXISTS idx_transactions_wallet   ON transactions (wallet_id);
 CREATE INDEX IF NOT EXISTS idx_transactions_type     ON transactions (type);
-CREATE INDEX IF NOT EXISTS idx_transactions_month    ON transactions (date_trunc('month', transaction_date::timestamp));
+CREATE INDEX IF NOT EXISTS idx_transactions_type_date ON transactions (type, transaction_date DESC);
 
 -- ============================================================
 -- ROW LEVEL SECURITY (RLS) — Aktifkan jika pakai Auth Supabase
