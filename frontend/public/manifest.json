@@ -1,0 +1,43 @@
+{
+  "name": "Rinci — Keuangan Keluarga",
+  "short_name": "Rinci",
+  "description": "Aplikasi Manajemen Keuangan Keluarga yang lengkap dan mudah digunakan",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#030712",
+  "theme_color": "#10b981",
+  "lang": "id",
+  "categories": ["finance", "productivity"],
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [],
+  "shortcuts": [
+    {
+      "name": "Catat Transaksi",
+      "short_name": "Catat",
+      "description": "Catat transaksi baru dengan cepat",
+      "url": "/tambah",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Riwayat",
+      "short_name": "Riwayat",
+      "description": "Lihat riwayat transaksi",
+      "url": "/riwayat",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+    }
+  ]
+}

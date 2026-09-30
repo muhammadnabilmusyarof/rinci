@@ -1,0 +1,15 @@
+{
+  "name": "rinci-deploy",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Rinci — Manajemen Keuangan Keluarga (Vercel + Supabase)",
+  "scripts": {
+    "build": "cd frontend && npm install && npm run build",
+    "dev:api": "node api/index.js"
+  },
+  "dependencies": {
+    "pg": "^8.12.0",
+    "cors": "^2.8.5",
+    "express": "^4.19.2"
+  }
+}
